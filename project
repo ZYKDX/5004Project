@@ -1,0 +1,42 @@
+壹 尺寸
+	version 1: 21*21
+	version 2: 25*25 。。。
+	使用version2
+
+	25*25 grid layout
+	int[][] data = new int[25][25];
+	JButton[][] buttons = new JButton[25][25];
+	一个data cell和一个JButton cell对应，这样就可以根据data数列找到对应的button
+
+	00  01  02  ... 024
+	10  11  12  ... 124
+	...
+	240 241 242 ... 2424
+	先计算出result的值（result是一个binary array）
+	然后根据result的值创建图案，根据1和0填充颜色
+
+	setActionCommand = 0 white 1 black
+	getActionCommand = 0 setBackground WHITE 1 setBackGround BLACK
+
+
+贰 定位图案：
+    1. position detection pattern
+        标记二维码的矩形大小
+    	固定大小 回字，包含一条白边。左上，右上，左下三个位置
+    2. timing patterns
+        同样是为了定位
+    	两条，连接三个position detection pattern
+    	黑白相间,位置是固定的
+    3. alignment patterns
+        辅助定位
+    	比较小的回字
+    	version 2只需要一个，位置也是固定的
+叁 功能性数据
+    1.format information
+        存放格式化数据
+    2.version information (version 2不需要)
+肆 数据码和纠错码
+    1. data code
+        对原始数据进行编码
+        
+    2. error correction code
