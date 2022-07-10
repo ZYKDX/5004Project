@@ -2,22 +2,21 @@
 	version 1: 21*21
 	version 2: 25*25 。。。
 	使用version2
-
-	25*25 grid layout
-	int[][] data = new int[25][25];
-	JButton[][] buttons = new JButton[25][25];
-	一个data cell和一个JButton cell对应，这样就可以根据data数列找到对应的button
+	
+	数据： int[][] DATA = new int[25][25];
+	    	左上角：DATA[0][0]   右下角：DATA[24][24]
+	Image:  25*25 grid layout
+		不可使用JButton，使用。。。
 
 	00  01  02  ... 024
 	10  11  12  ... 124
 	...
 	240 241 242 ... 2424
-	先计算出result的值（result是一个binary array）
-	然后根据result的值创建图案，根据1和0填充颜色
 
-	setActionCommand = 0 white 1 black
-	getActionCommand = 0 setBackground WHITE 1 setBackGround BLACK
+	根据编码规则填充DATA数组，再根据DATA数组填充颜色
 
+	setActionCommand： 0 white 1 black
+	getActionCommand： 0 setBackground WHITE 1 setBackGround BLACK
 
 贰 定位图案：
     1. position detection pattern
@@ -31,12 +30,36 @@
         辅助定位
     	比较小的回字
     	version 2只需要一个，位置也是固定的
+
 叁 功能性数据
     1.format information
         存放格式化数据
     2.version information (version 2不需要)
 肆 数据码和纠错码
+    编码步骤：先对源数据进行编码，然后根据编码结果得到纠错码，最后在结尾加上用于补齐的字节
     1. data code
-        对原始数据进行编码
+        对原始数据进行编码：给定一个字符串，将其变成一个二进制数
+	有多种编码模式，我们使用字节编码 Byte Mode 模式指示符：0100 (可以同时容纳大小写)
+	纠错级别：L，查表得知2-L可以容纳的字符数是32
+               字符计数指示符：二进制数，表示源字符串的字符个数, 位于模式指示符之后
+	    长度是固定的，在Version 2 + Byte Mode下，长度是8
+ 	    假设源字符串的长度是 5  "Hello" 则字符计数指示符是  00000101 （左侧用0补齐8位）
+	这样得到的是  0010 00000101
+	
+	然后对 源字符串 进行编码(ISO8859-1，再变成8 bit binary)
+	H - 01001000   e - 01100101   l - 01101100  o - 01101111
+	
+	得到的是 0010 00000101 01001000 01100101 01101100 01101100 01101111
+	分别是： byte mode indicator, String length indicator, H, e, l, l, o
+	
+
+	然后补齐
+	现有的version和纠错级别下，一共需要多少位： 2L - 34 bit * 8 -> 272 required bits
+	
+	
+	
+
+
+	
         
     2. error correction code
