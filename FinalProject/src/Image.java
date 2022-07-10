@@ -26,7 +26,7 @@ public class Image extends JFrame
         imageArea.setOpaque(true);
         imageArea.setLayout(new GridLayout(25,25));
         JPanel cell;
-        Data.main();
+        Data.generateData();
         for(int i=0; i<25; i++)
         {
             for(int j=0; j<25; j++)

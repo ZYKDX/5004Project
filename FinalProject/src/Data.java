@@ -1,3 +1,4 @@
+
 public class Data
 {
     public static int DATA[][] = new int[25][25];
@@ -95,13 +96,90 @@ public class Data
         DATA[17][18]=0;
     }
 
-    public static void main()
+    /**
+     * Generate data code
+     * Byte Mode indicator + String length indicator + String encoding + pad bits
+     * Total length is 34 * 8 = 272 bits
+     * @param s
+     * @return
+     */
+    public static int[] encodeData(String s)
+    {
+        int[] result = new int[272];
+        int index = 0; // where are we?
+        int len = s.length();
+        int[] byteModeIndicator = {0,0,1,0};
+        // byteModeIndicator, 4 bits - 0010 for Byte Mode
+        for(int i=0; i<4; i++)
+        {
+            result[i] = byteModeIndicator[i];
+        }
+        index = 3;
+        // string length indicator 8 digits
+        for(int i=0; i<8; i++)
+        {
+            result[i+4] = decimalToBinary(len)[i];
+        }
+        index = 11;
+        //then encode the string
+        for(int i=0; i<len; i++)
+        {
+            for(int j=index+1; j<index+9; j++)
+            {
+                result[j] = ByteMode.encode(s.charAt(i))[j-index-1];
+            }
+            index += 8;
+        }
+
+        // pad bits?
+
+        return result;
+    }
+
+    /**
+     * Convert a decimal to 8-digit binary array
+     * @return
+     */
+    private static int[] decimalToBinary(int s)
+    {
+        int[] result = new int[8];
+        int power = 128;
+        for(int i=0; i<8; i++)
+        {
+            result[i] = s / power;
+            s %= power;
+            power /= 2;
+        }
+        return result;
+    }
+    /**
+     * convert 8-digit binary to int
+     * @return
+     */
+    private int binaryToDecimal(int[] s)
+    {
+        int result = 0;
+        int power = 1;
+        for(int i=7; i>=0; i--)
+        {
+            result += s[i] * power;
+            power *= 2;
+        }
+        return result;
+    }
+
+    public static void generateData()
     {
         setPositionDetection(3,3);
         setPositionDetection(3,21);
         setPositionDetection(21,3);
         setTimingPatterns();
         setAlignmentPattern();
+
+    }
+    public static void main(String[] args)
+    {
+
     }
 
 }
