@@ -1,5 +1,8 @@
 # 5004Project
 
+QR code tutorial 英文-详细
+https://www.thonky.com/qr-code-tutorial/
+
 介绍二维码原理的文章
 https://hellogithub2014.github.io/2019/08/05/qr-code-theory/
 
