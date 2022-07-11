@@ -24,12 +24,12 @@ public class Image extends JFrame
 
         JPanel imageArea = new JPanel();
         imageArea.setOpaque(true);
-        imageArea.setLayout(new GridLayout(25,25));
+        imageArea.setLayout(new GridLayout(29,29));
         JPanel cell;
         Data.generateData();
-        for(int i=0; i<25; i++)
+        for(int i=0; i<29; i++)
         {
-            for(int j=0; j<25; j++)
+            for(int j=0; j<29; j++)
             {
                 cell = new JPanel();
                 if(Data.DATA[i][j]==0)
