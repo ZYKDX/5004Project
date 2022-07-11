@@ -1,0 +1,106 @@
+Size
+    Version: 3  (29*29)
+    纠错级别 Error Correction Level: L 
+    数据: int[][] DATA = new int[29][29];
+	 左上角 DATA[0][0]  右下角 DATA[28][28]
+    Image: 29 * 29 grid layout （841 * JPanel）
+          00  01  02  ...  028
+          10  11  12  ...  128
+                 ...
+         280 281 282  ...  2828
+    根据编码规则填充DATA数据，再根据DATA数据填充颜色  0->WHITE 1->BLACK
+定位图案
+    1. position detection pattern
+       标记二维码的位置和矩形的大小
+       固定大小的回字，并包含一条白边。三个位置：左上，右上，左下
+    2. timing patterns
+       同样是为了定位
+       两条线，分别连接左上+右上 和 左上+左下
+       黑白相间，位置固定
+    3. alignment patterns
+       辅助定位
+       是一个小回字
+       version 3 的二维码中只需要一个，位置固定
+
+ 	
+Data Analysis
+    使用Byte Mode - 大小写和标点符号
+Data Encoding 编码
+    以 Hello 为例
+    1. choose error correction level (EC level)
+        使用纠错级别 L - recovers 7% of data
+    2. 在 version 3 + L + Byte Mode下，最多可以编码53个字符
+    3. Add the Mode indicator
+        byte mode 的 indicator 是 0100
+    4. Add the charcater count indicator
+        在version 3 + ByteMode下，这个indicator的长度固定为8bit
+        字符串的长度是 5 -> 101
+        因此character count indicator是 00000101
+    -> 截至目前: 0100 00000101
+    5. Encode using the selected mode
+        对 Hello 使用Byte Mode进行编码 : ISO8859-1 再变成8bit binary
+        H - 01001000  e - 01100101  l - 01101100  o - 01101111
+    得到 0010 00000101 01001000 01100101 01101100 01101100 01101111
+        mode charcount    H        e        l        l        o
+    6. 补齐
+        1，determine the required number of bits for this QR code
+           在3L下，需要 55 * 8 = 440 required bits (查表)
+        2.add terminator of 0s
+           如果目前得到的binary string长度小于 440，则在右侧补最多4个0
+           (如果少的多，只能加0000，如果只少2位，就加00，少3位就加000)
+        3. add more 0s to make multiple of 8
+           如果长度不是8的倍数，在右边继续加0达到8的倍数
+        4. add pad bytes if the string is still too short
+           然后在右侧补上以下的序列直到达到440长度
+                 11101100 00010001  (分别是236和17)
+    得到  0010 00000101 01001000 01100101 01101100 01101100 01101111 0000   11101100 00010001 11101100 00010001 11101100 00010001 ... 一直重复直到 55 bytes
+         mode charcount   H        e        l         l        o    term   |-> pad bytes
+    
+    对齐：00100000 01010100 10000110 01010110 11000110 11000110 11110000     11101100 00010001 11101100 00010001 11101100 00010001 ...
+
+Error Correction Coding
+    1. break data codewords into blocks if necessary
+        在3L下，1个group含有1个block (换句话说，不需要进行split)
+    	需要产生15个 EC codewords
+    2. generate EC codewords
+       1. Message polynomial M多项式
+         之前得到的data codewords是 00100000 01010100 10000110 01010110 11000110 11000110 11110000 11101100 00010001 11101100 00010001 11101100 00010001 ...
+         变成十进制                   32        84       134       86     198       198      240      236      17       236     17 ...
+         M多项式:   32X54 + 84X53 + 134X52 + 86X51 + 198X50 + 198X49 + 240X48 + 236X47 + 17X46 + ... + 236X + 17
+       2. The generator polynomial  G多项式
+         我们需要15codewords，由generator polynomial tool得到：(当固定数字15时，该多项式是固定的)
+	0｜15 + 8｜14 + 183｜13 + 61｜12 + 91｜11 + 202｜10 + 37｜9 + 51｜8 + 58｜7 + 58｜6 + 237｜5 + 140｜4 + 124｜3 + 5｜2 + 99｜1 + 105｜0
+        ( 0|15 指的是 a^0 * X^15)
+    3. divide the M polynomial by the G polynomial
+       M多项式:   32X54 + 84X53 + 134X52 + 86X51 + 198X50 + 198X49 + 240X48 + 236X47 + 17X46 + ... + 236X + 17
+       G多项式:   0｜15 + 8｜14 + 183｜13 + 61｜12 + 91｜11 + 202｜10 + 37｜9 + 51｜8 + 58｜7 + 58｜6 + 237｜5 + 140｜4 + 124｜3 + 5｜2 + 99｜1 + 105｜0
+       1. 将两个多项式对齐
+          M多项式乘以 X^15 得到
+	     32X69 + 84X68 + 134X67 + 86X66 + 198X65 + 198X64 + 240X63 + 236X62 + 17X61 + ... + 236X16 + 17X5
+          G多项式乘以 X^54得到
+             0｜69 + 8｜68 + 183｜67 + 61｜66 + 91｜65 + 202｜64 + 37｜63 + 51｜62 + 58｜61 + 58｜60 + 237｜59 + 140｜58 + 124｜57 + 5｜56 + 99｜55 + 105｜54
+	（重复55次，得到一个含有15项的多项式，其中的系数就是最终的EC codewords）
+       2. 对于G多项式，乘以M多项式的第一项 (log-antilog table https://www.thonky.com/qr-code-tutorial/log-antilog-table)
+          32X69 -> 32 -> 根据table，32对应的是a^5
+          将a^5乘到G多项式中，改变a的指数，如果超过255，那么%255
+          得到  5｜69 + 13｜68 + 188｜67 + 66｜66 + 96｜65 + 207｜64 + 42｜63 + 56｜62 + 63｜61 + 63｜60 + 242｜59 + 145｜58 + 129｜57 + 10｜56 + 104｜55 + 110｜54
+          %255：5｜69 + 13｜68 + 188｜67 + 66｜66 + 96｜65 + 207｜64 + 42｜63 + 56｜62 + 63｜61 + 63｜60 + 242｜59 + 145｜58 + 129｜57 + 10｜56 + 104｜55 + 110｜54
+ 	 然后convert back to integer notation:
+	      32X69 + 135X68 + 165X67 + 97X66 +...
+          然后与M多项式进行异或运算
+               32^32X69 + 135^84X68 + ...
+	  结果： 0X69 + 211X68 + ...
+	  去掉第一项得到 211X68 + ...   -> 新的M多项式
+	  新的G多项式： 除以x一次  0｜68 + 8｜67 + 183｜66 + 61｜65 + 91｜64 + 202｜63 + 37｜62 + 51｜61 + 58｜60 + 58｜59 + 237｜58 + 140｜57 + 124｜56 + 5｜55 + 99｜54 + 105｜53
+		(M多项式的最高项是68，因此G多项式也要除以x以将最高项变成68)
+       3. 重复进行，最终得到一个15项多项式，其系数为 c1 c2 c3 ... c15
+	  这样就得到了15位的EC codewords
+Structure Final Message
+    该版本中不需要进行interleaving，将Data codewords放在EC codewords之前。
+    最终再补上7个0.就得到了要填充的数据 remainder bits
+Module Placement in Matrix
+    这样得到的string length为 55*8 + 15*8 + 7 = 567
+    version 3二维码中的data部分正好是567位
+Data Masking
+    
+    
