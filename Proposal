@@ -6,8 +6,8 @@ This project uses Java GUI.
 
 Information encoding:
     
-    int[][] DATA = new int[25][25];
-    25*25 2D binary int array of 0 and 1
+    int[][] DATA = new int[29][29];
+    29*29 2D binary int array of 0 and 1
     0 -> white pixel    1 -> black pixel
     
     To encode information:
@@ -18,7 +18,7 @@ Information encoding:
 The visualization is a JFrame which has 2 parts:
   part 1: uses a JTextField to receive message from the user. 
           The message is a string of Upper Case letter, lower case letter, number, and some symbols
-          length of the string is limited to 32 (determined by the size of the QR code)
-  part 2: uses a 25*25 grid layout filled with 625 JPanels
+          length of the string is limited to 53 (determined by the size and EC level of the QR code: 3L)
+  part 2: uses a 29*29 grid layout filled with 841 JPanels
           set the background of the JPanels to Color.BLACK or Color.WHITE
           
