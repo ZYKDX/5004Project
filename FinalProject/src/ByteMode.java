@@ -109,7 +109,7 @@ public class ByteMode
      * @param a
      * @return
      */
-    public static int[] hexToBinary(String a)
+    private static int[] hexToBinary(String a)
     {
         int[] result = new int[8];
         switch(a.charAt(0))
