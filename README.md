@@ -1,3 +1,7 @@
+Author: Shu Xu          https://github.com/susie1024   
+        Yukun Zhou      https://github.com/ZYKDX
+
+
 # 5004Project
 
 QR code tutorial 英文-详细
