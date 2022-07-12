@@ -1,2 +1,0 @@
-public class Mask8 {
-}

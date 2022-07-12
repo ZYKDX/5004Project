@@ -25,13 +25,13 @@ public class Image extends JFrame
         imageArea.setOpaque(true);
         imageArea.setLayout(new GridLayout(29,29));
         JPanel cell;
-        int[][] result = Mask2.masked2();
+        Data.generateData();
         for(int i=0; i<29; i++)
         {
             for(int j=0; j<29; j++)
             {
                 cell = new JPanel();
-                if(result[i][j]==0)
+                if(Data.DATA[i][j]==0)
                 {
 
                     cell.setBackground(Color.WHITE);

@@ -32,7 +32,7 @@ Data Encoding 编码
     2. 在 version 3 + L + Byte Mode下，最多可以编码53个字符
     3. Add the Mode indicator
         byte mode 的 indicator 是 0100
-    4. Add the charcater count indicator
+    4. Add the character count indicator
         在version 3 + ByteMode下，这个indicator的长度固定为8bit
         字符串的长度是 5 -> 101
         因此character count indicator是 00000101
@@ -41,7 +41,7 @@ Data Encoding 编码
         对 Hello 使用Byte Mode进行编码 : ISO8859-1 再变成8bit binary
         H - 01001000  e - 01100101  l - 01101100  o - 01101111
     得到 0010 00000101 01001000 01100101 01101100 01101100 01101111
-        mode charcount    H        e        l        l        o
+        mode char_count   H        e        l        l        o
     6. 补齐
         1，determine the required number of bits for this QR code
            在3L下，需要 55 * 8 = 440 required bits (查表)
@@ -54,13 +54,13 @@ Data Encoding 编码
            然后在右侧补上以下的序列直到达到440长度
                  11101100 00010001  (分别是236和17)
     得到  0010 00000101 01001000 01100101 01101100 01101100 01101111 0000   11101100 00010001 11101100 00010001 11101100 00010001 ... 一直重复直到 55 bytes
-         mode charcount   H        e        l         l        o    term   |-> pad bytes
+         mode char_count  H        e        l         l        o    term   |-> pad bytes
     
     对齐：00100000 01010100 10000110 01010110 11000110 11000110 11110000     11101100 00010001 11101100 00010001 11101100 00010001 ...
 
 Error Correction Coding
     1. break data codewords into blocks if necessary
-        在3L下，1个group含有1个block (换句话说，不需要进行split)
+        在version 3 + L下，1个group含有1个block (换句话说，不需要进行split)
     	需要产生15个 EC codewords
     2. generate EC codewords
        1. Message polynomial M多项式
@@ -101,6 +101,7 @@ Structure Final Message
 Module Placement in Matrix
     这样得到的string length为 55*8 + 15*8 + 7 = 567
     version 3二维码中的data部分正好是567位
+
 Data Masking
     
     

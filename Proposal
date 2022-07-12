@@ -12,7 +12,7 @@ Information encoding:
     
     To encode information:
           position detection pattern, timing pattern, alignment pattern
-          Mode indicator. character count indicator, encode the informatioon(using selected mode)
+          Mode indicator. character count indicator, encode the information(using selected mode)
           Error correction coding
 
 The visualization is a JFrame which has 2 parts:

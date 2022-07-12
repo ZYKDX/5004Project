@@ -64,8 +64,8 @@ public class Data
         {
             if(i%2==0)
             {
-                DATA[6][i]=1;
-                DATA[i][6]=1;
+                DATA[6][i]=2;
+                DATA[i][6]=2;
             }
             else
             {
@@ -281,7 +281,7 @@ public class Data
      * @param j
      * @return
      */
-    public static int[] next(int i, int j)
+    static int[] next(int i, int j)
     {
         int[] result = new int[2];
         if(j>=8 && j<=28 && j%2==0) {result[0] = i; result[1] = j-1;}
@@ -371,6 +371,8 @@ public class Data
             location = next(location[0], location[1]);
             DATA[location[0]][location[1]] = target[i+1];
         }
+        int[][][] maskedMatrices = new int[8][29][29];
+        maskedMatrices[0] = new Mask0().getMaskedMatrix(DATA);
     }
     public static void main(String[] args)
     {
