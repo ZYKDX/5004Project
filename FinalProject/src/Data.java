@@ -223,9 +223,6 @@ public class Data
         }
         return result;
     }
-
-
-
     /**
      * helper function, append target array to result array
      * @param result
@@ -355,7 +352,7 @@ public class Data
         }
         return result;
     }
-    public static void generateData()
+    public static int[][] generateData()
     {
         setPositionDetection(3,3);
         setPositionDetection(3,25);
@@ -363,7 +360,7 @@ public class Data
         setTimingPatterns();
         setAlignmentPattern();
         setDarkModule();
-        int[] target = getECcode("github.com/ZYKDX");
+        int[] target = getECcode("happy");
         DATA[28][28] = target[0];
         int[] location = {28,28};
         for(int i=0; i<566; i++)
@@ -371,8 +368,33 @@ public class Data
             location = next(location[0], location[1]);
             DATA[location[0]][location[1]] = target[i+1];
         }
+        return DATA;
+    }
+    public static int[][][] maskData()
+    {
+        generateData();
         int[][][] maskedMatrices = new int[8][29][29];
+        int[][] typeInfo = {{1,1,1,0,1,1,1,1,1,0,0,0,1,0,0},
+                            {1,1,1,0,0,1,0,1,1,1,1,0,0,1,1},
+                            {1,1,1,1,1,0,1,1,0,1,0,1,0,1,0},
+                            {1,1,1,1,0,0,0,1,0,0,1,1,1,0,1},
+                            {1,1,0,0,1,1,0,0,0,1,0,1,1,1,1},
+                            {1,1,0,0,0,1,1,0,0,0,1,1,0,0,0},
+                            {1,1,0,1,1,0,0,0,1,0,0,0,0,0,1},
+                            {1,1,0,1,0,0,1,0,1,1,1,0,1,1,0}};
         maskedMatrices[0] = new Mask0().getMaskedMatrix(DATA);
+        maskedMatrices[1] = new Mask1().getMaskedMatrix(DATA);
+        maskedMatrices[2] = new Mask2().getMaskedMatrix(DATA);
+        maskedMatrices[3] = new Mask3().getMaskedMatrix(DATA);
+        maskedMatrices[4] = new Mask4().getMaskedMatrix(DATA);
+        maskedMatrices[5] = new Mask5().getMaskedMatrix(DATA);
+        maskedMatrices[6] = new Mask6().getMaskedMatrix(DATA);
+        maskedMatrices[7] = new Mask7().getMaskedMatrix(DATA);
+        for(int i=0; i<8; i++)
+        {
+            Mask.setTypeInfo(maskedMatrices[i], typeInfo[i]);
+        }
+        return maskedMatrices;
     }
     public static void main(String[] args)
     {
