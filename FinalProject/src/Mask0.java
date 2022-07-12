@@ -1,8 +1,8 @@
-public class Mask4
+public class Mask0
 {
-    public static int[][] masked4()
+    public static int[][] masked0()
     {
-        // mask rule: floor(row/2) + floor(column/3)  mod2 == 0
+        // mask rule: (row+column) mod 2 == 0
         Data.generateData();
         int[][] result = new int[29][29];
         for(int i=0; i<29; i++)
@@ -14,7 +14,7 @@ public class Mask4
         }
         // first case
         int row = 28, column = 28;
-        if((row/2 + column/3) % 2 == 0)
+        if((row + column) % 2 == 0)
         {
             result[row][column] = change(result[row][column]);
         }
@@ -23,13 +23,13 @@ public class Mask4
             int[] newPosition = Data.next(row,column);
             row = newPosition[0];
             column = newPosition[1];
-            if((row/2 + column/3) % 2 == 0)
+            if((row+column)%2==0)
             {
                 result[row][column] = change(result[row][column]);
             }
         }
-        // type information: 110011000101111
-        int[] typeInfo = {1,1,0,0,1,1,0,0,0,1,0,1,1,1,1};
+        // type information: 111011111000100
+        int[] typeInfo = {1,1,1,0,1,1,1,1,1,0,0,0,1,0,0};
         setTypeInfo(result, typeInfo);
         return result;
     }

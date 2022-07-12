@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class Image extends JFrame
@@ -20,19 +19,19 @@ public class Image extends JFrame
         infoArea.add(infoLabel);
         JTextField infoInput = new JTextField();
         infoArea.add(infoInput);
-        add(infoArea, BorderLayout.NORTH);
+        //add(infoArea, BorderLayout.NORTH);
 
         JPanel imageArea = new JPanel();
         imageArea.setOpaque(true);
         imageArea.setLayout(new GridLayout(29,29));
         JPanel cell;
-        Data.generateData();
+        int[][] result = Mask2.masked2();
         for(int i=0; i<29; i++)
         {
             for(int j=0; j<29; j++)
             {
                 cell = new JPanel();
-                if(Data.DATA[i][j]==0)
+                if(result[i][j]==0)
                 {
 
                     cell.setBackground(Color.WHITE);
@@ -46,5 +45,14 @@ public class Image extends JFrame
 
         }
         add(imageArea, BorderLayout.CENTER);
+        JPanel up = new JPanel();
+        JPanel down = new JPanel();
+        JPanel left = new JPanel();
+        JPanel right = new JPanel();
+        add(up, BorderLayout.NORTH);
+        add(down, BorderLayout.SOUTH);
+        add(left, BorderLayout.EAST);
+        add(right, BorderLayout.WEST);
+
     }
 }

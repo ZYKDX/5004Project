@@ -113,7 +113,7 @@ public class Data
         int[] result = new int[440];
         int index = -1; // where are we?
         int len = s.length();
-        int[] byteModeIndicator = {0,0,1,0};
+        int[] byteModeIndicator = {0,1,0,0};
         // byteModeIndicator, 4 bits - 0010 for Byte Mode
 
         index = arrayAppend(result, index, byteModeIndicator);
@@ -281,7 +281,7 @@ public class Data
      * @param j
      * @return
      */
-    private static int[] next(int i, int j)
+    public static int[] next(int i, int j)
     {
         int[] result = new int[2];
         if(j>=8 && j<=28 && j%2==0) {result[0] = i; result[1] = j-1;}
@@ -363,7 +363,7 @@ public class Data
         setTimingPatterns();
         setAlignmentPattern();
         setDarkModule();
-        int[] target = getECcode("Hello");
+        int[] target = getECcode("github.com/ZYKDX");
         DATA[28][28] = target[0];
         int[] location = {28,28};
         for(int i=0; i<566; i++)
