@@ -30,4 +30,19 @@ public class EvaluationTest {
         assertEquals(40, Evaluation.calculatePenaltyRule3(new int[][]{{1},{0},{1},{1},{1},{0},{1},{0},{0},{0},{0}}));
         assertEquals(40, Evaluation.calculatePenaltyRule3(new int[][]{{0},{0},{0},{0},{1},{0},{1},{1},{1},{0},{1}}));
     }
+
+    @Test
+    void calculatePenaltyRule4() {
+        assertEquals(90, Evaluation.calculatePenaltyRule4(new int[][]{{0,0,0,0,0,0,0,0,0,0}}));
+        assertEquals(70, Evaluation.calculatePenaltyRule4(new int[][]{{1,0,0,0,0,0,0,0,0,0}}));
+        assertEquals(50, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,0,0,0,0,0,0,0,0}}));
+        assertEquals(30, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,0,0,0,0,0,0,0}}));
+        assertEquals(10, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,0,0,0,0,0,0}}));
+        assertEquals(0, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,1,0,0,0,0,0}}));
+        assertEquals(20, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,1,1,0,0,0,0}}));
+        assertEquals(40, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,1,1,1,0,0,0}}));
+        assertEquals(60, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,1,1,1,1,0,0}}));
+        assertEquals(80, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,1,1,1,1,1,0}}));
+        assertEquals(100, Evaluation.calculatePenaltyRule4(new int[][]{{1,1,1,1,1,1,1,1,1,1}}));
+    }
 }

@@ -124,13 +124,13 @@ public class Evaluation {
         }
         return result;
     }
-    private static int calculatePenaltyRule4(int[][] matrix)
+    static int calculatePenaltyRule4(int[][] matrix)
     {
-        int total = 29 * 29;
+        int total = matrix.length * matrix[0].length;
         int whiteNum = 0, blackNum = 0;
-        for(int i = 0; i<20; i++)
+        for(int i = 0; i< matrix.length; i++)
         {
-            for(int j = 0; j < 29; j++)
+            for(int j = 0; j < matrix[0].length; j++)
             {
                 if(matrix[i][j] == 0)
                 {
