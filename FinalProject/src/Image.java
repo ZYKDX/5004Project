@@ -25,7 +25,7 @@ public class Image extends JFrame
         imageArea.setOpaque(true);
         imageArea.setLayout(new GridLayout(29,29));
         JPanel cell;
-        int[][] data = Evaluation.getBestMaskPattern(Data.maskData());
+        int[][] data = Data.generateData("This is a test string");
         for(int i=0; i<29; i++)
         {
             for(int j=0; j<29; j++)

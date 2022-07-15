@@ -2,54 +2,52 @@ import java.util.Arrays;
 
 public class Data
 {
-    public static int DATA[][] = new int[29][29];
-
     /**
      * Fill the DATA array with a position detection pattern, center is (row, column)
      * @param row row of the center point
      * @param column column of the center point
      */
-    public static void setPositionDetection(int row, int column)
+    public static void setPositionDetection(int[][] matrix, int row, int column)
     {
         for(int i=row-3; i<=row+3; i++)
         {
             for(int j=column-3; j<=column+3; j++)
             {
-                DATA[i][j]=1;
+                matrix[i][j]=1;
             }
         }
         for(int i=column-2; i<=column+2; i++)
         {
-            DATA[row-2][i] = 0;
-            DATA[row+2][i] = 0;
+            matrix[row-2][i] = 0;
+            matrix[row+2][i] = 0;
         }
         for(int i=row-2; i<=row+2; i++)
         {
-            DATA[i][column-2] = 0;
-            DATA[i][column+2] = 0;
+            matrix[i][column-2] = 0;
+            matrix[i][column+2] = 0;
         }
         if(row==3 && column==3)  //upper left
         {
             for(int i=0; i<=7; i++)
             {
-                DATA[7][i] = 0;
-                DATA[i][7] = 0;
+                matrix[7][i] = 0;
+                matrix[i][7] = 0;
             }
         }
         else if(row==3 && column==25)  // upper right
         {
             for(int i=0; i<=7; i++)
             {
-                DATA[i][21]=0;
-                DATA[7][21+i]=0;
+                matrix[i][21]=0;
+                matrix[7][21+i]=0;
             }
         }
         else if(row==25 && column==3)  // lower left
         {
             for(int i=0; i<=7; i++)
             {
-                DATA[21][i]=0;
-                DATA[21+i][7]=0;
+                matrix[21][i]=0;
+                matrix[21+i][7]=0;
             }
         }
     }
@@ -58,19 +56,19 @@ public class Data
      * Fill the DATA array with 2 Timing Pattern strips
      * This pattern is fixed
      */
-    public static void setTimingPatterns()
+    public static void setTimingPatterns(int[][] matrix)
     {
         for(int i=8; i<=20; i++)
         {
             if(i%2==0)
             {
-                DATA[6][i]=2;
-                DATA[i][6]=2;
+                matrix[6][i]=2;
+                matrix[i][6]=2;
             }
             else
             {
-                DATA[6][i]=0;
-                DATA[i][6]=0;
+                matrix[6][i]=0;
+                matrix[i][6]=0;
             }
         }
     }
@@ -79,26 +77,26 @@ public class Data
      * Fill the DATA array with 1 alignment pattern
      * This pattern is fixed
      */
-    public static void setAlignmentPattern()
+    public static void setAlignmentPattern(int[][] matrix)
     {
         for(int i=20; i<=24; i++)
         {
             for(int j=20; j<=24; j++)
             {
-                DATA[i][j]=1;
+                matrix[i][j]=1;
             }
         }
         for(int i=21; i<=23; i++)
         {
-            DATA[21][i]=0;
-            DATA[23][i]=0;
+            matrix[21][i]=0;
+            matrix[23][i]=0;
         }
-        DATA[22][21]=0;
-        DATA[22][23]=0;
+        matrix[22][21]=0;
+        matrix[22][23]=0;
     }
-    public static void setDarkModule()
+    public static void setDarkModule(int[][] matrix)
     {
-        DATA[21][8]=1;
+        matrix[21][8]=1;
     }
     /**
      * Generate data code
@@ -352,27 +350,28 @@ public class Data
         }
         return result;
     }
-    public static int[][] generateData()
+    public static int[][] generateData(String data)
     {
-        setPositionDetection(3,3);
-        setPositionDetection(3,25);
-        setPositionDetection(25,3);
-        setTimingPatterns();
-        setAlignmentPattern();
-        setDarkModule();
-        int[] target = getECcode("happy");
-        DATA[28][28] = target[0];
+        int[][] matrix = new int[29][29];
+        setPositionDetection(matrix,3,3);
+        setPositionDetection(matrix,3,25);
+        setPositionDetection(matrix,25,3);
+        setTimingPatterns(matrix);
+        setAlignmentPattern(matrix);
+        setDarkModule(matrix);
+        int[] target = getECcode(data);
+        matrix[28][28] = target[0];
         int[] location = {28,28};
         for(int i=0; i<566; i++)
         {
             location = next(location[0], location[1]);
-            DATA[location[0]][location[1]] = target[i+1];
+            matrix[location[0]][location[1]] = target[i+1];
         }
-        return DATA;
+        int[][][] matrices = Data.maskData(matrix);
+        return Evaluation.getBestMaskPattern(matrices);
     }
-    public static int[][][] maskData()
+    public static int[][][] maskData(int[][] matrix)
     {
-        generateData();
         int[][][] maskedMatrices = new int[8][29][29];
         int[][] typeInfo = {{1,1,1,0,1,1,1,1,1,0,0,0,1,0,0},
                             {1,1,1,0,0,1,0,1,1,1,1,0,0,1,1},
@@ -382,20 +381,21 @@ public class Data
                             {1,1,0,0,0,1,1,0,0,0,1,1,0,0,0},
                             {1,1,0,1,1,0,0,0,1,0,0,0,0,0,1},
                             {1,1,0,1,0,0,1,0,1,1,1,0,1,1,0}};
-        maskedMatrices[0] = new Mask0().getMaskedMatrix(DATA);
-        maskedMatrices[1] = new Mask1().getMaskedMatrix(DATA);
-        maskedMatrices[2] = new Mask2().getMaskedMatrix(DATA);
-        maskedMatrices[3] = new Mask3().getMaskedMatrix(DATA);
-        maskedMatrices[4] = new Mask4().getMaskedMatrix(DATA);
-        maskedMatrices[5] = new Mask5().getMaskedMatrix(DATA);
-        maskedMatrices[6] = new Mask6().getMaskedMatrix(DATA);
-        maskedMatrices[7] = new Mask7().getMaskedMatrix(DATA);
+        maskedMatrices[0] = new Mask0().getMaskedMatrix(matrix);
+        maskedMatrices[1] = new Mask1().getMaskedMatrix(matrix);
+        maskedMatrices[2] = new Mask2().getMaskedMatrix(matrix);
+        maskedMatrices[3] = new Mask3().getMaskedMatrix(matrix);
+        maskedMatrices[4] = new Mask4().getMaskedMatrix(matrix);
+        maskedMatrices[5] = new Mask5().getMaskedMatrix(matrix);
+        maskedMatrices[6] = new Mask6().getMaskedMatrix(matrix);
+        maskedMatrices[7] = new Mask7().getMaskedMatrix(matrix);
         for(int i=0; i<8; i++)
         {
             Mask.setTypeInfo(maskedMatrices[i], typeInfo[i]);
         }
         return maskedMatrices;
     }
+
     public static void main(String[] args)
     {
 
