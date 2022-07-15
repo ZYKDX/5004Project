@@ -87,24 +87,36 @@ public class Evaluation {
         return count * 3;
     }
 
-    private static int calculatePenaltyRule3(int[][] matrix)
+    static int calculatePenaltyRule3(int[][] matrix)
     {
         int result = 0;
-        for(int i=0; i<29; i++)
+        // Horizontal
+        for(int i=0; i<matrix.length; i++)
         {
-            for(int j=0; j<=18; j++)
+            for(int j=0; j<=matrix[0].length-11; j++)
             {
-                String tested1 = "", tested2= "";
+                String tested = "";
                 for(int k = 0; k < 11; k++)
                 {
-                    tested1 = tested1 + matrix[i][j + k];
-                    tested2 = tested2 + matrix[j + k][i];
+                    tested = tested + matrix[i][j + k];
                 }
-                if(tested1 == "00001011101" || tested1 == "10111010000")
+                if(tested.equals("00001011101") || tested.equals("10111010000"))
                 {
                     result += 40;
                 }
-                if(tested2 == "00001011101" || tested2 == "10111010000")
+            }
+        }
+        // Vertical
+        for(int j=0; j<matrix[0].length; j++)
+        {
+            for(int i=0; i<=matrix.length-11; i++)
+            {
+                String tested = "";
+                for(int k = 0; k < 11; k++)
+                {
+                    tested = tested + matrix[i + k][j];
+                }
+                if(tested.equals("00001011101") || tested.equals("10111010000"))
                 {
                     result+=40;
                 }

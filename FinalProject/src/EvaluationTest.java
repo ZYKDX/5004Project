@@ -23,4 +23,11 @@ public class EvaluationTest {
         assertEquals(6, Evaluation.calculatePenaltyRule2(new int[][]{{1,0,0}, {1,0,0}, {0,0,0}}));
     }
 
+    @Test
+    void calculatePenaltyRule3() {
+        assertEquals(40, Evaluation.calculatePenaltyRule3(new int[][]{{1,0,1,1,1,0,1,0,0,0,0}}));
+        assertEquals(40, Evaluation.calculatePenaltyRule3(new int[][]{{0,0,0,0,1,0,1,1,1,0,1}}));
+        assertEquals(40, Evaluation.calculatePenaltyRule3(new int[][]{{1},{0},{1},{1},{1},{0},{1},{0},{0},{0},{0}}));
+        assertEquals(40, Evaluation.calculatePenaltyRule3(new int[][]{{0},{0},{0},{0},{1},{0},{1},{1},{1},{0},{1}}));
+    }
 }
