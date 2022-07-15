@@ -1,10 +1,20 @@
 public class Evaluation {
     public static int[][] getBestMaskPattern(int[][][] matrices) {
-        return new int[][]{};
+        int minScore = Integer.MAX_VALUE;
+        int[][] result = matrices[0];
+        for(int[][] matrix: matrices) {
+            int score = calculatePenaltyScore(matrix);
+            if (score <= minScore) {
+                minScore = score;
+                result = matrix;
+            }
+        }
+        return result;
     }
 
     private static int calculatePenaltyScore(int[][] matrix) {
-        return 0;
+        return calculatePenaltyRule1(matrix) + calculatePenaltyRule2(matrix)
+                + calculatePenaltyRule3(matrix) + calculatePenaltyRule4(matrix);
     }
 
     static int calculatePenaltyRule1(int[][] matrix) {
