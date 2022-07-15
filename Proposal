@@ -1,15 +1,15 @@
-Author: Shu Xu, Yukun Zhou
+Project:  Fixed-Size QR Code Generator
+    Shu Xu, Yukun Zhou
 
-Fixed-Size QR Code Generator
-
-This project uses Java GUI.
+Project Description: This project has 2 parts - QR code generator and user interface. 
+    The user interface is based on Java GUI, receives user input, and displays the generated QR code.
+    The QR code generator is based on Java, gets the user input, and encode the entered information following QR code specifications.
+    The program will ask for a user input (a string up to 53 characters long), and display a 29*29 QR code.
+    By scanning the generated QR code, user input will be read by the scanner (a mobile phone or ipad)
 
 Information encoding:
-    
-    int[][] DATA = new int[29][29];
-    29*29 2D binary int array of 0 and 1
-    0 -> white pixel    1 -> black pixel
-    
+    int[][] DATA = new int[29][29]   <->   29*29 2D binary int array of 0 and 1
+                                           0 -> white pixel    1 -> black pixel
     To encode information:
           position detection pattern, timing pattern, alignment pattern
           Mode indicator. character count indicator, encode the information(using selected mode)
