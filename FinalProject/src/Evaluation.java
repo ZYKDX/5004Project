@@ -11,8 +11,21 @@ public class Evaluation {
         return 0;
     }
 
-    private static int calculatePenaltyRule2(int[][] matrix) {
-        return 0;
+    static int calculatePenaltyRule2(int[][] matrix) {
+        int count = 0;
+        for (int i = 0; i < matrix.length - 1; i++)
+        {
+            for (int j = 0; j < matrix[0].length - 1; j++)
+            {
+                if (matrix[i][j] == matrix[i+1][j]
+                        && matrix[i][j] == matrix[i][j+1]
+                        &&matrix[i][j] == matrix[i+1][j+1])
+                {
+                    count++;
+                }
+            }
+        }
+        return count * 3;
     }
 
     private static int calculatePenaltyRule3(int[][] matrix)
