@@ -7,8 +7,57 @@ public class Evaluation {
         return 0;
     }
 
-    private static int calculatePenaltyRule1(int[][] matrix) {
-        return 0;
+    static int calculatePenaltyRule1(int[][] matrix) {
+       int result = 0;
+       // horizontal
+       for (int i = 0; i < matrix.length; i++)
+       {
+           int j = 0;
+           while (j < matrix[i].length - 5)
+           {
+               if (matrix[i][j] == matrix[i][j+1]
+                       && matrix[i][j] == matrix[i][j+2]
+                       && matrix[i][j] == matrix[i][j+3]
+                       && matrix[i][j] == matrix[i][j+4])
+               {
+                   result = result + 3;
+                   j = j + 5;
+                   while(j < matrix[i].length && matrix[i][j-5] == matrix[i][j])
+                   {
+                       result++;
+                       j++;
+                   }
+               } else
+               {
+                   j++;
+               }
+           }
+       }
+        // Vertical
+        for (int j = 0; j < matrix[0].length; j++)
+        {
+            int i = 0;
+            while (i < matrix.length-5)
+            {
+                if (matrix[i][j] == matrix[i+1][j]
+                        && matrix[i][j] == matrix[i+2][j]
+                        && matrix[i][j] == matrix[i+3][j]
+                        && matrix[i][j] == matrix[i+4][j])
+                {
+                    result = result + 3;
+                    i= i + 5;
+                    while(i < matrix.length && matrix[i-5][j] == matrix[i][j])
+                    {
+                        result++;
+                        i++;
+                    }
+                } else
+                {
+                    i++;
+                }
+            }
+        }
+       return result;
     }
 
     static int calculatePenaltyRule2(int[][] matrix) {
