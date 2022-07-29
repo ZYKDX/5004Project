@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="-97.78787878787875" y="443.8766233766234">ByteMode</node>
+    <node x="-484.78787878787875" y="-71.6233766233766">Mask2</node>
+    <node x="-144.78787878787875" y="-71.6233766233766">Mask0</node>
+    <node x="535.2121212121212" y="-71.6233766233766">Mask3</node>
+    <node x="-508.0389610389609" y="269.4545454545455">Data</node>
+    <node x="875.2121212121212" y="-71.6233766233766">Mask5</node>
+    <node x="-144.78787878787875" y="72.3766233766234">Mask</node>
+    <node x="-60.28787878787875" y="341.8766233766234">Image</node>
+    <node x="-889.1277056277056" y="315.930735930736">Evaluation</node>
+    <node x="195.21212121212125" y="-71.6233766233766">Mask1</node>
+    <node x="-824.7878787878788" y="-71.6233766233766">Mask4</node>
+    <node x="-99.78787878787875" y="580.3766233766235">ImageDemo</node>
+    <node x="-1164.7878787878788" y="-71.6233766233766">Mask6</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Mask1" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="344.21212121212125" y="143.8766233766234" />
+      <point x="149.0" y="0.0" />
+    </edge>
+    <edge source="Mask0" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="0.0" y="-71.5" />
+    </edge>
+    <edge source="Mask3" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="684.2121212121212" y="158.8766233766234" />
+      <point x="149.0" y="15.0" />
+    </edge>
+    <edge source="Mask2" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="-335.78787878787875" y="143.8766233766234" />
+      <point x="-149.0" y="0.0" />
+    </edge>
+    <edge source="Mask5" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="1024.2121212121212" y="173.8766233766234" />
+      <point x="149.0" y="30.0" />
+    </edge>
+    <edge source="Mask4" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="-675.7878787878788" y="158.8766233766234" />
+      <point x="-149.0" y="15.0" />
+    </edge>
+    <edge source="Mask6" target="Mask" relationship="GENERALIZATION">
+      <point x="0.0" y="45.5" />
+      <point x="-1015.7878787878788" y="173.8766233766234" />
+      <point x="-149.0" y="30.0" />
+    </edge>
+  </edges>
+  <settings layout="分层" zoom="0.5021739130434782" showDependencies="false" x="-1015.7878787878788" y="-26.123376623376657" />
+  <SelectedNodes />
+  <Categories>
+    <Category>内部类</Category>
+    <Category>字段</Category>
+    <Category>属性</Category>
+    <Category>方法</Category>
+    <Category>构造函数</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
