@@ -1,10 +1,22 @@
 import javax.swing.*;
+//import javax.xml.crypto.Data;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Image extends JFrame
+public class Image extends JFrame implements ActionListener
 {
     public static final int WIDTH = 900;
     public static final int HEIGHT = 1000;
+    public String entered;
+    public JTextField infoInput;
+    public JPanel infoArea;
+    public JLabel infoLabel;
+    public JPanel imageContainer;
+    public JPanel imageArea;
+    //public JPanel cell;
+    public int[][] data;
+    public JPanel[][] cells;
     public Image()
     {
         super("QR code generator");
@@ -12,47 +24,56 @@ public class Image extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-
-        JPanel infoArea = new JPanel();
-        infoArea.setLayout(new GridLayout(1,2));
-        JLabel infoLabel = new JLabel("Input your message, get a QR code, for free.");
+        infoArea = new JPanel();
+        infoArea.setLayout(new GridLayout(1,3));
+        infoLabel = new JLabel("Input your message, get a QR code.");
         infoArea.add(infoLabel);
-        JTextField infoInput = new JTextField();
+        infoInput = new JTextField("This is a test string");
+        entered = "www.google.com";
         infoArea.add(infoInput);
-        //add(infoArea, BorderLayout.NORTH);
-
-        JPanel imageArea = new JPanel();
-        imageArea.setOpaque(true);
-        imageArea.setLayout(new GridLayout(29,29));
-        JPanel cell;
-        int[][] data = Data.generateData("This is a test string");
+        JButton submit = new JButton("Submit");
+        submit.addActionListener(this);
+        infoArea.add(submit);
+        add(infoArea, BorderLayout.NORTH);
+        imageContainer = new JPanel();
+        imageContainer.setLayout(new BorderLayout());
+        imageArea = new JPanel();
+        imageContainer.add(imageArea);
+        cells = new JPanel[29][29];
         for(int i=0; i<29; i++)
         {
             for(int j=0; j<29; j++)
             {
-                cell = new JPanel();
+                cells[i][j] = new JPanel();
+            }
+        }
+        add(imageContainer, BorderLayout.CENTER);
+
+    }
+    public void actionPerformed(ActionEvent e)
+    {
+        entered = infoInput.getText();
+        imageContainer.remove(imageArea);
+        imageArea = new JPanel();
+        imageArea.setOpaque(true);
+        imageArea.setLayout(new GridLayout(29,29));
+        data = Data.generateData(entered);
+        for(int i=0; i<29; i++)
+        {
+            for(int j=0; j<29; j++)
+            {
                 if(data[i][j]==0)
                 {
-
-                    cell.setBackground(Color.WHITE);
+                    cells[i][j].setBackground(Color.WHITE);
                 }
                 else
                 {
-                    cell.setBackground(Color.BLACK);
+                    cells[i][j].setBackground(Color.BLACK);
                 }
-                imageArea.add(cell);
+                imageArea.add(cells[i][j]);
             }
-
         }
-        add(imageArea, BorderLayout.CENTER);
-        JPanel up = new JPanel();
-        JPanel down = new JPanel();
-        JPanel left = new JPanel();
-        JPanel right = new JPanel();
-        add(up, BorderLayout.NORTH);
-        add(down, BorderLayout.SOUTH);
-        add(left, BorderLayout.EAST);
-        add(right, BorderLayout.WEST);
-
+        imageContainer.add(imageArea);
     }
+
 }
