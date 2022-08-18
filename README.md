@@ -10,7 +10,7 @@ Tech highlights: Java Swing, Reed-Solomon code, Byte-Mode encoding
 Demo: run ImageDemo.java
 
 
-<img width="816" alt="WeChatbe8df4d5f7d89ba15598026dd0ceafc0" src="https://user-images.githubusercontent.com/101040143/185329327-9793c611-73e6-410a-adc5-127995225d31.png">
+<img width="500" alt="WeChatbe8df4d5f7d89ba15598026dd0ceafc0" src="https://user-images.githubusercontent.com/101040143/185329327-9793c611-73e6-410a-adc5-127995225d31.png">
 
 Reference:
 
