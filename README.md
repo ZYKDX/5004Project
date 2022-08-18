@@ -1,8 +1,16 @@
 Author: Shu Xu          https://github.com/anonymousmiaow
         Yukun Zhou      https://github.com/ZYKDX
 
+This is a QR code generator project, which also serves as the final project of Northeastern University's CS5004 course.
 
-# 5004Project
+The project allows the user to input a string no longer than 53 digits (upper- and lower-case letters, numbers, and symbols). After clicking the submit button, a QR code that can be recognized by the smart devide (iPhone, Android phone, iPad, ...) will be generated.
+
+Language: Java
+Tech highlights: Java Swing, Reed-Solomon code, Byte-Mode encoding
+Demo: run ImageDemo.java
+
+
+Reference:
 
 QR code tutorial 英文-详细
 https://www.thonky.com/qr-code-tutorial/
